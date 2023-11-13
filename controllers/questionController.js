@@ -11,3 +11,16 @@ exports.getQuestions = catchAsync(async (req, res, next) => {
       return next(new AppError(error.details[0].message, 400));
     }
 });
+
+
+exports.addQuestion = catchAsync(async (req, res, next) => {
+  try {
+    const question = await Question.create({
+        ...req.body
+    });
+    res.json(question);
+  } catch (error) {
+    return next(new AppError(error.details[0].message, 400));
+  }
+});
+

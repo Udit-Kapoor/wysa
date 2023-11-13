@@ -1,4 +1,3 @@
-
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 const User = require("../models/user");
@@ -37,43 +36,46 @@ const createAndSendToken = (user, statusCode, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const { error } = signupSchema.validate(req.body);
 
-  if (error) {
-    return next(new AppError(error.details[0].message, 400));
+  try {
+      const newUser = await User.create({
+        ...req.body,
+      });
+
+      createAndSendToken(newUser, 201, res);
+      
+  } catch (error) {
+      return next(new AppError(error.details[0].message, 400));
   }
 
-  const newUser = await User.create({
-    ...req.body
-  });
-
-  createAndSendToken(newUser, 201, res);
+  
 });
 
 exports.login = catchAsync(async (req, res, next) => {
-  const { error } = loginSchema.validate(req.body);
 
-  if (error) {
-    return next(new AppError(error.details[0].message, 400));
+  try {
+    const { nickname, password } = req.body;
+    // 1) check if email and password exists
+    if (!nickname || !password) {
+      next(new AppError("Please provide name and password", 400));
+    }
+
+    // 2) check if user exists and password is correct
+    const user = await User.findOne({ nickname }).select("+password");
+
+    if (!user || !(await user.correctPassword(password, user.password))) {
+      return next(new AppError("Incorrect name or password", 401));
+    }
+
+    // 3) if everything ok , send token to client
+    createAndSendToken(user, 200, res);
+  } catch (error) {
+      return next(new AppError(error.details[0].message, 400));
   }
 
-  const { nickname, password } = req.body;
-
-  // 1) check if email and password exists
-  if (!nickname || !password) {
-    next(new AppError("Please provide name and password", 400));
-  }
-
-  // 2) check if user exists and password is correct
-  const user = await User.findOne({ nickname }).select("+password");
-
-  if (!user || !(await user.correctPassword(password, user.password))) {
-    return next(new AppError("Incorrect name or password", 401));
-  }
-
-  // 3) if everything ok , send token to client
-  createAndSendToken(user, 200, res);
 });
+
+//LOGIC FOR PROTECTED ROUTES
 
 exports.protect = catchAsync(async (req, res, next) => {
   // 1) Getting token and check if it exists
