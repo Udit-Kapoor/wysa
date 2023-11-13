@@ -10,7 +10,7 @@ To implement the above approach we need the following NoSQL Database Schema (Mon
   
 1. **User Collection:**
 
-```json
+```
 
 {
 
@@ -23,7 +23,7 @@ To implement the above approach we need the following NoSQL Database Schema (Mon
 
 2. **Question Collection:**
 
-```json
+```
 {
 "_id": ObjectId("question_id"),
 "question_text": "What is your sleep goal?", //(String)
@@ -35,7 +35,7 @@ To implement the above approach we need the following NoSQL Database Schema (Mon
 
 3. **UserResponses Collection:**
 
-```json
+```
 
 {
 "_id": ObjectId("response_id"),
@@ -60,7 +60,7 @@ To implement the above approach we need the following NoSQL Database Schema (Mon
 
 - **Request Body:**
 
-```json
+```
 
 {
 "username": "Udit",
@@ -71,7 +71,7 @@ To implement the above approach we need the following NoSQL Database Schema (Mon
 
 - **Response:**
 
-```json
+```
 {
 "_id": ObjectId("user_id"),
 "username": "Udit"
@@ -85,7 +85,7 @@ To implement the above approach we need the following NoSQL Database Schema (Mon
 
 - **Response:**
 
-```json
+```
 
 [
 
@@ -110,7 +110,7 @@ To implement the above approach we need the following NoSQL Database Schema (Mon
 
 - **Request Body:**
 
-```json
+```
 {
 
 "user_id": ObjectId("user_id"),
@@ -128,7 +128,7 @@ To implement the above approach we need the following NoSQL Database Schema (Mon
 
 - **Response:**
 
-```json
+```
 
 {
 
