@@ -10,6 +10,7 @@ exports.submitAnswer = catchAsync(async (req, res, next) => {
     );
     //TODO : add logic to calculate sleep_efficiency
     //TODO : add validation logic so that answer must match options in question
+    //TODO : add multiple answer selection choice.
     res.json({
       user_id,
       message: "Responses submitted successfully.",

@@ -2,7 +2,6 @@ const Question = require("../models/question");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
-
 exports.getQuestions = catchAsync(async (req, res, next) => {
     try {
       const questions = await Question.find();
